@@ -34,33 +34,35 @@ def extract_tvseries(dom):
       
     komma = ", "    # komma om tussen acteurs en genre te zetten
     imdb = []       # imdb als list
-    for series in dom.by_tag("table.results"):
-        for data in series.by_tag("td.title"):  # zoek in table gegevens van serie
-            gegevens = []
-            for title in data.by_tag("a")[0]:   # zoek naar eerste a tag, want dat is de titel
-                gegevens.append(title)
+    
+    for data in dom.by_tag("td.title"):  # zoek in table gegevens van serie
+        gegevens = []
+        for title in data.by_tag("a")[0]:   # zoek naar eerste a tag, want dat is de titel
+            print title.content.encode('ascii', 'ignore') # voorkomt unicode error
+            gegevens.append(title.content)
                 
-            for rating in data.by_tag("span.value"):        # zoek naar ratings
-                gegevens.append(plaintext(rating.content))  # voegt titel aan gegevens toe
+        for rating in data.by_tag("span.value"):        # zoek naar ratings
+            gegevens.append(plaintext(rating.content))  # voegt titel aan gegevens toe
                 
-            for genres in data.by_tag("span.genre"):    
-                soort = []                                  # maakt list soort
-                for genre in genres.by_tag("a"):            # zoek naar genre
-                    soort.append(plaintext(genre.content))  # voegt genres toe aan soort
-                seq = komma.join(soort)                     # maakr van list een string
-                gegevens.append(seq)                        # voegt genre string aan gegevens
+        for genres in data.by_tag("span.genre"):    
+            soort = []                                  # maakt list soort
+            for genre in genres.by_tag("a"):            # zoek naar genre
+                soort.append(plaintext(genre.content))  # voegt genres toe aan soort
+            seq = komma.join(soort)                     # maakr van list een string
+            gegevens.append(seq)                        # voegt genre string aan gegevens
                 
-            for actors in data.by_tag("span.credit"):
-                acteurs = []                                # maak list acteurs 
-                for actor in actors.by_tag("a"):            # zoek naar acteurs
-                    acteurs.append(plaintext(actor.content))# voegt gevonden acteurs aan list
-                sq = komma.join(acteurs)                    # maakt van list string
-                gegevens.append(sq)                         # voegt acteur string aan gegegevens toe
+        for actors in data.by_tag("span.credit"):
+            acteurs = []                                # maak list acteurs 
+            for actor in actors.by_tag("a"):            # zoek naar acteurs
+                actor.encode('ascii', 'ignore')         # voorkomt unicode error
+                acteurs.append(plaintext(actor.content))# voegt gevonden acteurs aan list
+            sq = komma.join(acteurs)                    # maakt van list string
+            gegevens.append(sq)                         # voegt acteur string aan gegegevens toe
                 
-            for runtime in data.by_tag("span.runtime"):     # zoek naar runtime
-                gegevens.append(runtime.content.partition(' ')[0]) # voegt runtime aan gegevens toe 
+        for runtime in data.by_tag("span.runtime"):     # zoek naar runtime
+            gegevens.append(runtime.content.partition(' ')[0]) # voegt runtime aan gegevens toe 
                
-            imdb.append(gegevens)   # voegt de list van gegevens aan list imdb
+        imdb.append(gegevens)   # voegt de list van gegevens aan list imdb
             
     return imdb # return list 
 
@@ -74,10 +76,7 @@ def save_csv(f, tvseries):
 
     # ADD SOME CODE OF YOURSELF HERE TO WRITE THE TV-SERIES TO DISK
     for serie in tvseries:      # voor elke lijst aan gegevens in lijst imdb
-        try:
-            writer.writerow(serie)  # schrijf gegevens in rij csv bestand
-        except UnicodeEncodeError:
-            pass
+        writer.writerow(serie)  # schrijf gegevens in rij csv bestand
 
 if __name__ == '__main__':
     # Download the HTML file
