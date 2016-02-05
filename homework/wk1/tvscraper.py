@@ -32,17 +32,17 @@ def extract_tvseries(dom):
     # UNICODE CHARACTERS AND SIMPLY LEAVE THEM OUT OF THE OUTPUT.
     
       
-    komma = ", "    # komma om tussen acteurs en genre te zetten
+    komma = ", "    # komma om tussen acteurs en genres te zetten
     imdb = []       # imdb als list
     
     for data in dom.by_tag("td.title"):  # zoek in table gegevens van serie
         gegevens = []
-        for title in data.by_tag("a")[0]:   # zoek naar eerste a tag, want dat is de titel
-            print title.content.encode('ascii', 'ignore') # voorkomt unicode error
-            gegevens.append(title.content)
+        title = data.by_tag("a")[0]                    # zoek naar eerste a tag, want dat is de titel
+        title.content.encode('ascii', 'ignore') # voorkomt unicode error
+        gegevens.append(title.content)
                 
-        for rating in data.by_tag("span.value"):        # zoek naar ratings
-            gegevens.append(plaintext(rating.content))  # voegt titel aan gegevens toe
+        rating = data.by_tag("span.value")[0]        # zoek naar ratings
+        gegevens.append(plaintext(rating.content))  # voegt titel aan gegevens toe
                 
         for genres in data.by_tag("span.genre"):    
             soort = []                                  # maakt list soort
@@ -54,13 +54,14 @@ def extract_tvseries(dom):
         for actors in data.by_tag("span.credit"):
             acteurs = []                                # maak list acteurs 
             for actor in actors.by_tag("a"):            # zoek naar acteurs
-                actor.encode('ascii', 'ignore')         # voorkomt unicode error
+                actor.content.encode('ascii', 'ignore')         # voorkomt unicode error
                 acteurs.append(plaintext(actor.content))# voegt gevonden acteurs aan list
             sq = komma.join(acteurs)                    # maakt van list string
             gegevens.append(sq)                         # voegt acteur string aan gegegevens toe
                 
-        for runtime in data.by_tag("span.runtime"):     # zoek naar runtime
-            gegevens.append(runtime.content.partition(' ')[0]) # voegt runtime aan gegevens toe 
+        runtime = data.by_tag("span.runtime")[0]    # zoek naar runtime
+       
+        gegevens.append(runtime.content.partition(' ')[0]) # voegt runtime aan gegevens toe 
                
         imdb.append(gegevens)   # voegt de list van gegevens aan list imdb
             
@@ -75,8 +76,17 @@ def save_csv(f, tvseries):
     writer.writerow(['Title', 'Ranking', 'Genre', 'Actors', 'Runtime'])
 
     # ADD SOME CODE OF YOURSELF HERE TO WRITE THE TV-SERIES TO DISK
-    for serie in tvseries:      # voor elke lijst aan gegevens in lijst imdb
-        writer.writerow(serie)  # schrijf gegevens in rij csv bestand
+    
+    for serie in tvseries:
+        serie = [unicode(serie).encode("utf-8")] # voorkom bij elke serie unicode error
+        writer.writerow(serie)                   # schirf serie naar csv
+
+    
+    # Helaas werkt boven staande code niet, het schirjft 'u bij elk gegeven van de serie.
+    # Dit komt waarschijnlijk door de haakjes om de unicode encode, maar zonder wordt elke
+    # letter van elkaar afgezonderd. En na lang verschillende dingen uitproberen, kwam het
+    # steeds verkkeerd in het csv bestand. Ik ben erg benieuwd naar de oplossing
+    
 
 if __name__ == '__main__':
     # Download the HTML file
