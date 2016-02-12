@@ -213,13 +213,17 @@ def scrape_top_250(url):
     movie_urls = []
     # YOUR SCRAPING CODE GOES HERE, ALL YOU ARE LOOKING FOR ARE THE ABSOLUTE
     # URLS TO EACH MOVIE'S IMDB PAGE, ADD THOSE TO THE LIST movie_urls.
+    
+    # initieer movie_html en en movie_dom naar imdb top 250 site
     movie_html = URL(url).download(cached=True)
     movie_dom = DOM(movie_html)
+        # zoek op de site naar td.titlecolumn waar link in zit
     for films in movie_dom.by_tag("td.titleColumn"):
+        # zoek link in td.titlecolumn 
         link = films.by_tag('a')[0]
+        # maak abslote path en voeg het toe aan de lijst movies_urls
         link = "http://www.imdb.com" + link.attrs.get("href","")
         movie_urls.append(link)
-    
 
 
     # return the list of URLs of each movie's page on IMDB
@@ -243,40 +247,75 @@ def scrape_movie_page(dom):
     '''
     # YOUR SCRAPING CODE GOES HERE:
     
+    # zoek title op basis attribute "name"
     title = dom.by_attribute(itemprop = "name")[0].content
+    # verwijder "&nbsp" van titel
     title = title.split("&")[0]
+    
+    # probeer
     try:
-        duration = dom.by_tag("time")[1].content 
+        # zoek tijd obv tag time
+        duration = dom.by_tag("time")[1].content
+        # verwijder " min" van content
+        duration = duration.split(" ")[0] 
+    # zo niet
     except:
+        # maak duration not found
         duration = "not found" 
     
+    # maak list aan
     genres = []
+    # zoek genre in tag span.itemprop
     for genre in dom.by_tag("span.itemprop"):
+        # wanneer genre het attribute genre heeft..
         if (genre.attrs.get("itemprop") == "genre"):
+            # ..voeg genre toe aan lijst 
             genres.append(genre.content)
+    # maak van lijst een unicode regel
     genres = "; ".join(genres)
      
+    # maak lijst aan
     directors = [] 
+    # zoek aar span tags
     for director in dom.by_tag("span"):
+        # wanneer in span itemprop director is..
         if (director.attrs.get("itemprop") == "director"):
+            # ..zoek naar span tag in grotere span tag
             for x in director.by_tag("span"):
+                # en voeg content aan lijst 
                 directors.append(x.content)
+    # maak van lijst unicode regel
     directors = "; ".join(directors)
     
+    
+
+
+    # maak lijst aan
     writers = []
+    # zoek naar div.credit
     for writer in dom.by_tag("div.credit_summary_item"):
+        # zoek in div.credit naar itemprop = creator
         for p in writer.by_attribute(itemprop = "creator"):
+            # ..zoek naar span tag in div.credit
             for x in p.by_tag("span"):
+                # en voeg content aan lijst 
                 writers.append(x.content)
+    # maak van lijst unicode regel
     writers = "; ".join(writers)  
     
+    # maak lijst aan
     actors = []
+    # zoek aar span tags
     for actor in dom.by_tag("span"):
+        # wanneer in span itemprop actorss is..
         if (actor.attrs.get("itemprop") == "actors"):
+            # ..zoek naar span tag in grotere span tag
             for x in actor.by_tag("span"):
+                # en voeg content aan lijst 
                 actors.append(x.content)
+    # maak van lijst unicode regel
     actors = "; ".join(actors)
-    
+
     rating = dom.by_attribute(itemprop = "ratingValue")[0]
     rating = rating.content
     
