@@ -1,4 +1,5 @@
-/* use this to test out your function */
+// Ruben Postma 
+// 11075708
 // met laden van pagina
 window.onload = function() {
 	// kleur landen met changeColor

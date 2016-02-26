@@ -1,3 +1,6 @@
+# Ruben Postma
+# 11075708
+
 # importeer libraries
 import csv
 import json

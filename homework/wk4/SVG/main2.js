@@ -1,3 +1,7 @@
+// Ruben Postma
+// 11075708
+
+
 // als pagina laadt
 window.onload = function() {
 	// haal lijst uit data tag (opgehaal met jsonconverter.py)
