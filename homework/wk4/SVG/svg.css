@@ -1,0 +1,21 @@
+/* continent color 
+	maak Europa paars met witte omlijning van landen
+*/
+.landxx
+{
+  	fill: purple;
+  	stroke: white;
+}
+
+/* country colors
+	maak frankrijk en Witrusland rood en groen
+*/
+#fr.landxx
+{
+  	fill: red;
+}
+
+#by.landxx
+{
+	fill: green;
+}

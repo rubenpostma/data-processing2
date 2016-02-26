@@ -1,0 +1,9 @@
+/* continent color
+ wanneer data mist, landfill is zwart(default)
+ stroke is ook zwart
+ */
+.landxx
+{
+  	stroke: black;
+}
+
