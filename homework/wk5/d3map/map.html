@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    	<title>Forest Map 2013</title>
+    </head>
+    <body>
+    	<h1 align = "center"><font face="Verdana" color="#bae4b3">Percentage of forest area 2013</font></h1>
+    	<div id="container1" style="height: 500px; width: 960px; margin:0 auto;"></div>
+        <div id='legend'>
+  
+  			<nav class='legend clearfix'>
+    			<span style='background:#edf8e9;'></span>
+    			<span style='background:#bae4b3;'></span>
+   		 		<span style='background:#74c476;'></span>
+    			<span style='background:#31a354;'></span>
+    			<span style='background:#006d2c;'></span>
+    			<label>0 - 20%</label>
+    			<label>20 - 40%</label>
+    			<label>40- 60%</label>
+    			<label>60 - 80%</label>
+    			<label>80 - 100%</label>
+    		</nav>
+    	</div>
+    	<p>
+    		Deze kaart heeft als interactief element dat het mogelijk is om over een land te hoveren. Dit verandert dan de grenskleur van dit land en toont een label bij de muis, die de naam van het land toont en het preciese percentage van hoeveelheid bossen van dit land. De query die dus beantwoord is
+    		het percentage van bossen in een land. Wat wellicht interessanter is om te vragen in hoeverre de landen van het gemiddelde percenatge bosgebied afwijken, wat meer zegt over het aantal natuur van het land, deze query wordt neit beantwoord in mijn dataset. 
+    	</p>
+        <link rel="stylesheet" type="text/css" href="map.css"/>
+        <script src="http://datamaps.github.com/scripts/datamaps-all.js"></script>
+        <script type="text/javascript" src="d3/d3.min.js"></script>
+        <script src="map.js"></script>
+    </body>
+</html>

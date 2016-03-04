@@ -1,0 +1,13 @@
+/* bepaal atributen legenda*/
+.legend label,
+.legend span {
+  display:block;
+  float:left;
+  height:15px;
+  width:20%;
+  text-align:center;
+  font-size:12px;
+  font-weight: bold;
+  font-family: sans-serif;
+  color: black;
+};
