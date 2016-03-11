@@ -1,0 +1,62 @@
+#option{
+	text-align: center;
+
+}
+.knop {
+    background-color: steelblue; 
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    cursor: pointer;
+}
+.as path,
+.as line {
+	stroke: black;
+	fill: none;
+}
+/* zet svg in het midden scherm*/
+#chart{
+	margin-left: auto; 
+	margin-right: auto; 
+	display: block;
+}
+
+.gmld{
+	stroke: green;
+	fill: none;
+	stroke-width: 1px;
+}
+
+.min{
+	stroke: blue;
+	fill: none;
+	stroke-width: 1px;
+}
+
+.max{
+	stroke: red;
+	fill: none;
+	stroke-width: 1px;
+}
+
+#xselec{
+    fill: none;
+    stroke: black;
+    stroke-width: 1px;
+}
+text{
+	font-family: Verdana;
+	font-size: 12px;
+}
+
+.overlay {
+    fill: none;
+	stroke: none;
+	pointer-events: all;
+}
+
+
